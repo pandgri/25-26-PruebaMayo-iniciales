@@ -1,7 +1,7 @@
 
 services:
   examen:
-    image: xxxxxx/yyyyyyyyyy
+    image: pandgri859/api-andrada:latest
     ports:
       - 80:8000
     restart: always
