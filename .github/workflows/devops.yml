@@ -1,11 +1,6 @@
 name: Docker CI/CD
 
 on:
-  workflow_run:
-    workflows:
-      - Lint         # Flujo del que depende
-    types:
-      - completed
   push:
     branches: [ main ]
     paths:
@@ -16,6 +11,31 @@ on:
       - inventario/app/**
 
 jobs:
+  linter:
+    name: linting files
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.10", "3.12"]
+    steps:
+    # Paso 1: Checkout del repositorio
+    - name: Checkout Code
+      uses: actions/checkout@v4
+    # Paso 2: Configurar Python
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v4
+      with:
+        python-version: ${{ matrix.python-version }}
+    # Paso 3: Instalar dependencias        
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install pylint
+    # Paso 4: Ejecutar pylint
+    - name: Analysing the code with pylint
+      run: |
+        pylint $(git ls-files '*.py')
+        
   build:
     name: build and push Docker image
     runs-on: ubuntu-latest
