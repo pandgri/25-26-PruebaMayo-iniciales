@@ -46,7 +46,7 @@ jobs:
         username: ${{ secrets.EC2_USER }}
         port: 22 # ${{ secrets.PORT }}
         key: ${{ secrets.EC2_KEY }}
-        source: "compose.yml"
+        source: inventario/compose.yml
         target: /home/admin
     # 2
     - name: script deploy docker services 
@@ -58,5 +58,6 @@ jobs:
         port: 22  # ${{ secrets.PORT }}
         script: |
             sleep 30
+            cd inventario
             docker compose down --rmi all
             docker compose up -d
