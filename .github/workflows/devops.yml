@@ -35,9 +35,10 @@ jobs:
     - name: Analysing the code with pylint
       run: |
         pylint $(git ls-files '*.py')
-        
+
   build:
     name: build and push Docker image
+    needs: linter
     runs-on: ubuntu-latest
     steps: 
       # 1 
