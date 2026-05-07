@@ -27,7 +27,7 @@ jobs:
       - name: Build and push Docker image
         uses: docker/build-push-action@v5
         with:
-          context: .
+          context: inventario/
           push: true 
           tags: ${{ secrets.DHUB_USER }}/api-andrada:latest
 
